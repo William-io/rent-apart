@@ -11,4 +11,8 @@
     <Folder Include="Settings\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Rent.Domain\Rent.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
