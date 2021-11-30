@@ -1,8 +1,15 @@
-﻿namespace Rent.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Rent.Domain.Entities
 {
+    [Table("Category")]
     public class Category : Entity
     {
-        public string Type { get; set; }
+        [Required]
+        public string Type { get; set; } //Name
+
+        public IList<Renting> Rentings {get; set;}
 
     }
 }

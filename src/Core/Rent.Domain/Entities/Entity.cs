@@ -1,4 +1,7 @@
-﻿namespace Rent.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Rent.Domain.Entities
 {
     public abstract class Entity : IEquatable<Entity> 
     {
@@ -8,7 +11,9 @@
             Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; protected set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get;  set; }
 
         public bool Equals(Entity other)
         {
