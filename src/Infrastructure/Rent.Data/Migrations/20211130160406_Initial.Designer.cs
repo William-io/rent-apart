@@ -12,7 +12,7 @@ using Rent.Data.Context;
 namespace Rent.Data.Migrations
 {
     [DbContext(typeof(RentContext))]
-    [Migration("20211130132826_Initial")]
+    [Migration("20211130160406_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,22 +30,31 @@ namespace Rent.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Type")
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EditedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("EditedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)")
-                        .HasColumnName("VARCHAR(60)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b67c1bfe-0d13-4f6f-a970-48888baaa032"),
-                            Type = "Casa"
-                        });
                 });
 
             modelBuilder.Entity("Rent.Domain.Entities.Renting", b =>
@@ -54,32 +63,43 @@ namespace Rent.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
 
                     b.Property<double>("Bookings")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)")
-                        .HasColumnName("VARCHAR(120)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("EditedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("EditedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Gym")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("VARCHAR(40)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Pool")
                         .HasColumnType("bit");
@@ -98,39 +118,18 @@ namespace Rent.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Rentings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("65f15545-4ed8-4881-accb-1503edd930c8"),
-                            Availability = false,
-                            Bookings = 0.0,
-                            CreatedOn = new DateTime(2021, 11, 30, 10, 28, 26, 537, DateTimeKind.Local).AddTicks(2514),
-                            Description = "Hotel Quay is a hotel in the city of Quay, in the municipality of Quay, in the province of Québec, Canada.",
-                            Gym = true,
-                            Name = "Hotel Quay",
-                            Pool = true,
-                            Price = 1000.00m,
-                            Ranting = 5,
-                            Rooms = 2.0
-                        });
+                    b.ToTable("Renting");
                 });
 
             modelBuilder.Entity("Rent.Domain.Entities.Renting", b =>
                 {
                     b.HasOne("Rent.Domain.Entities.Category", "Category")
-                        .WithMany("Rentings")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_Post_Category");
+                        .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Rent.Domain.Entities.Category", b =>
-                {
-                    b.Navigation("Rentings");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Rent.Api.Endpoints;
 using Rent.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapMethods(CategoryPost.Template, CategoryPost.Methods, CategoryPost.Handle);
 
 app.UseAuthorization();
 
