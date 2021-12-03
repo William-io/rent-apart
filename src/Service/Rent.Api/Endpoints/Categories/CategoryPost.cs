@@ -11,13 +11,12 @@ namespace Rent.Api.Endpoints
 
         public static IResult Action(CategoryRequest categoryRequest, RentContext context)
         {
-            var category = new Category(categoryRequest.Name)
+            var category = new Category(categoryRequest.Name, "Test", "Test");
+
+            if (!category.IsValid)
             {
-                CreatedBy = "Test",
-                CreatedOn = DateTime.Now,
-                EditedBy = "Test",
-                EditedOn = DateTime.Now,
-            };
+                return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
+            }
 
             //Category is valid
             if (!category.IsValid)

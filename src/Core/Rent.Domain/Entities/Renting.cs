@@ -21,3 +21,15 @@ namespace Rent.Domain.Entities
 
     }
 }
+
+// {
+//     "name": "Hotel 1",
+//     "description": "Hotel 1",
+//     "rating": 5,
+//     "rooms": 2,
+//     "bookings": 2,
+//     "price": 100,
+//     "gym": true,
+//     "pool": true,
+//     "availability": true,
+// }
